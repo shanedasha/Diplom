@@ -48,4 +48,11 @@ public class DataHelper {
         }
         return null;
     }
+    @SpringBootApplication
+    @PropertySources({
+            @PropertySource("classpath:application.properties"),
+            @PropertySource("classpath:postgre.properties")
+    })
+    public class YourApplication{
+    }
 }

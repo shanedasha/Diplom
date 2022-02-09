@@ -21,6 +21,8 @@ dependencies {
     testImplementation 'com.codeborne:selenide:6.2.1'
     compileOnly 'org.projectlombok:lombok:1.18.22'
     annotationProcessor 'org.projectlombok:lombok:1.18.22'
+    implementation 'org.postgresql:postgresql:42.3.1'
+    implementation 'org.springframework.boot:spring-boot-starter-web:2.6.3.release'
 
     testCompileOnly 'org.projectlombok:lombok:1.18.22'
     testAnnotationProcessor 'org.projectlombok:lombok:1.18.22'
