@@ -2,12 +2,6 @@ package data;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
-import org.apache.commons.dbutils.QueryRunner;
-import org.apache.commons.dbutils.handlers.BeanHandler;
-
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.SQLException;
 
 public class DataHelper {
     @Data
@@ -26,33 +20,5 @@ public class DataHelper {
 
     public static BuyInfo getBuyInfo2() {
         return new BuyInfo("4444 4444 4444 4442", "08", "22", "Vasya", "122");
-    }
-
-
-    private static Connection getConnection() {
-        try {
-            return DriverManager.getConnection("jdbc:mysql://localhost:3306/app", "app", "pass");
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-        return null;
-    }
-
-    public static BuyInfo getNumberCardFromSQL() {
-        var runner = new QueryRunner();
-        var getNumberCardSQL = "SELECT card FROM cards ORDER BY created DESC LIMIT 1;";
-        try (var conn = getConnection()) {
-            return runner.query(conn, getNumberCardSQL, new BeanHandler<>(BuyInfo.class));
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-        return null;
-    }
-    @SpringBootApplication
-    @PropertySources({
-            @PropertySource("classpath:application.properties"),
-            @PropertySource("classpath:postgre.properties")
-    })
-    public class YourApplication{
     }
 }
