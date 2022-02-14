@@ -1,6 +1,9 @@
 package test;
 
 import data.DataHelper;
+import database.DataBase;
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import page.BuyInCreditPage;
 import page.BuyPage;
@@ -8,6 +11,15 @@ import page.BuyPage;
 import static com.codeborne.selenide.Selenide.open;
 
 public class TravelPurchaseTest {
+    @AfterEach
+    void cleanDataBases() {
+        DataBase.dropDataBase();
+    }
+
+    @BeforeEach
+    void setUpSutUrl() {
+        open(System.getProperty("sut.url"));
+    }
     @Test
     void shouldBuyWithValidInfo() {
         open("http://localhost:8080/");

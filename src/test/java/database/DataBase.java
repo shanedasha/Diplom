@@ -1,6 +1,9 @@
 package database;
 
-import data.DataHelper;
+import databaseentities.CreditRequestEntity;
+import databaseentities.OrderEntity;
+import databaseentities.PaymentEntity;
+import lombok.val;
 import org.apache.commons.dbutils.QueryRunner;
 import org.apache.commons.dbutils.handlers.BeanHandler;
 
@@ -22,14 +25,100 @@ public class DataBase {
         }
         return null;
     }
+    public static void dropDataBase() {
+        val runner = new QueryRunner();
+        val order = "DELETE FROM app.order_entity";
+        val payment = "DELETE FROM app.payment_entity";
+        val creditRequest = "DELETE FROM app.credit_request_entity";
 
-    public static DataHelper.BuyInfo getNumberCardFromSQL() {
-        var runner = new QueryRunner();
-        var getNumberCardSQL = "SELECT card FROM cards ORDER BY created DESC LIMIT 1;";
-        try (var conn = getConnection()) {
-            return runner.query(conn, getNumberCardSQL, new BeanHandler<>(DataHelper.BuyInfo.class));
+        try (val connection = getConnection()) {
+            runner.update(connection, order);
+            runner.update(connection, payment);
+            runner.update(connection, creditRequest);
+        } catch (SQLException sqlException) {
+            sqlException.printStackTrace();
+        }
+    }
+    public static String getCardStatusForPayment() {
+        String statusQuery = "SELECT * FROM app.payment_entity";
+        val runner = new QueryRunner();
+        try (Connection connection = getConnection()) {
+            val cardStatus = runner.query(connection, statusQuery, new BeanHandler<>(PaymentEntity.class));
+            return cardStatus.getStatus();
+        } catch (SQLException sqlException) {
+            sqlException.printStackTrace();
+        }
+        return null;
+    }
+
+    public static String getCardStatusForCreditRequest() {
+        String statusQuery = "SELECT * FROM app.credit_request_entity";
+        val runner = new QueryRunner();
+        try (Connection connection = getConnection()) {
+            val cardStatus = runner.query(connection, statusQuery, new BeanHandler<>(CreditRequestEntity.class));
+            return cardStatus.getStatus();
+        } catch (SQLException sqlException) {
+            sqlException.printStackTrace();
+        }
+        return null;
+    }
+
+    public static String getPaymentIdForCardPay() {
+        val idQueryForCardPay = "SELECT * FROM app.order_entity";
+        val runner = new QueryRunner();
+        try (val connection = getConnection()) {
+            val paymentId = runner.query(connection, idQueryForCardPay, new BeanHandler<>(OrderEntity.class));
+            return paymentId.getPayment_id();
         } catch (SQLException e) {
             e.printStackTrace();
+        }
+        return null;
+    }
+
+    public static String getPaymentIdForCreditRequest() {
+        val idQueryForCreditRequest = "SELECT * FROM app.order_entity";
+        val runner = new QueryRunner();
+        try (val connection = getConnection()) {
+            val paymentId = runner.query(connection, idQueryForCreditRequest, new BeanHandler<>(OrderEntity.class));
+            return paymentId.getPayment_id();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
+    public static String getTransactionId() {
+        val runner = new QueryRunner();
+        String idTransactionQuery = "SELECT * FROM app.payment_entity";
+        try (Connection connection = getConnection()) {
+            val transactionId = runner.query(connection, idTransactionQuery, new BeanHandler<>(PaymentEntity.class));
+            return transactionId.getTransaction_id();
+        } catch (SQLException sqlException) {
+            sqlException.printStackTrace();
+        }
+        return null;
+    }
+
+    public static String getAmountPayment() {
+        val runner = new QueryRunner();
+        String amountQuery = "SELECT * FROM app.payment_entity";
+        try (Connection connection = getConnection()) {
+            val transactionId = runner.query(connection, amountQuery, new BeanHandler<>(PaymentEntity.class));
+            return transactionId.getAmount();
+        } catch (SQLException sqlException) {
+            sqlException.printStackTrace();
+        }
+        return null;
+    }
+
+    public static String getBankId() {
+        String bankIdQuery = "SELECT * FROM app.credit_request_entity";
+        val runner = new QueryRunner();
+        try (Connection connection = getConnection()) {
+            val bankId = runner.query(connection, bankIdQuery, new BeanHandler<>(CreditRequestEntity.class));
+            return bankId.getBank_id();
+        } catch (SQLException sqlException) {
+            sqlException.printStackTrace();
         }
         return null;
     }
