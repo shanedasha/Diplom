@@ -9,8 +9,7 @@ import static com.codeborne.selenide.Selenide.$;
 import static com.codeborne.selenide.Selenide.$$;
 
 public class BuyPage {
-    public  void validInfo(DataHelper.BuyInfo buyInfo) {
-        $(".button").shouldHave(Condition.text("Купить")).click();
+    public BuyPage validInfo(DataHelper.BuyInfo buyInfo) {
         $("input[placeholder='0000 0000 0000 0000']").setValue(DataHelper.getBuyInfo1().getCardNumber());
         $("input[placeholder='08']").setValue(DataHelper.getBuyInfo1().getMonth());
         $("input[placeholder='22']").setValue(DataHelper.getBuyInfo1().getYear());
@@ -18,9 +17,10 @@ public class BuyPage {
         $("input[placeholder='999']").setValue(DataHelper.getBuyInfo1().getCcv());
         $$("button").find(exactText("Продолжить")).click();
         $(byText("Операция одобрена Банком."));
+        return this;
     }
-    public BuyPage NoValidInfo(DataHelper.BuyInfo buyInfo) {
-        $(".button").shouldHave(Condition.text("Купить")).click();
+
+    public BuyPage noValidInfo(DataHelper.BuyInfo buyInfo) {
         $("input[placeholder='0000 0000 0000 0000']").setValue(DataHelper.getBuyInfo2().getCardNumber());
         $("input[placeholder='08']").setValue(DataHelper.getBuyInfo2().getMonth());
         $("input[placeholder='22']").setValue(DataHelper.getBuyInfo2().getYear());
@@ -28,17 +28,15 @@ public class BuyPage {
         $("input[placeholder='999']").setValue(DataHelper.getBuyInfo2().getCcv());
         $$("button").find(exactText("Продолжить")).click();
         $(byText("Ошибка! Банк отказал в проведении операции."));
-        return new BuyPage();
+        return this;
     }
 
-    public BuyPage WithoutInfo() {
-        $(".button").shouldHave(Condition.text("Купить")).click();
-        $$("button").find(exactText("Продолжить")).click();
+    public BuyPage withoutInfo() {
         $(byText("Неверный формат"));
-        return new BuyPage();
+        return this;
     }
+
     public BuyPage setNumberCard(DataHelper.BuyInfo buyInfo, String cardNumber) {
-        $(".button").shouldHave(Condition.text("Купить")).click();
         $("input[placeholder='0000 0000 0000 0000']").setValue(cardNumber);
         $("input[placeholder='08']").setValue(DataHelper.getBuyInfo1().getMonth());
         $("input[placeholder='22']").setValue(DataHelper.getBuyInfo1().getYear());
@@ -46,10 +44,10 @@ public class BuyPage {
         $("input[placeholder='999']").setValue(DataHelper.getBuyInfo1().getCcv());
         $$("button").find(exactText("Продолжить")).click();
         $(byText("Неверный формат"));
-        return new BuyPage();
+        return this;
     }
+
     public BuyPage setMonth(DataHelper.BuyInfo buyInfo, String month) {
-        $(".button").shouldHave(Condition.text("Купить")).click();
         $("input[placeholder='0000 0000 0000 0000']").setValue(DataHelper.getBuyInfo1().getCardNumber());
         $("input[placeholder='08']").setValue(month);
         $("input[placeholder='22']").setValue(DataHelper.getBuyInfo1().getYear());
@@ -57,10 +55,10 @@ public class BuyPage {
         $("input[placeholder='999']").setValue(DataHelper.getBuyInfo1().getCcv());
         $$("button").find(exactText("Продолжить")).click();
         $(byText("Неверный формат"));
-        return new BuyPage();
+        return this;
     }
+
     public BuyPage setOwner(DataHelper.BuyInfo buyInfo, String owner) {
-        $(".button").shouldHave(Condition.text("Купить")).click();
         $("input[placeholder='0000 0000 0000 0000']").setValue(DataHelper.getBuyInfo1().getCardNumber());
         $("input[placeholder='08']").setValue(DataHelper.getBuyInfo1().getMonth());
         $("input[placeholder='22']").setValue(DataHelper.getBuyInfo1().getYear());
@@ -68,10 +66,10 @@ public class BuyPage {
         $("input[placeholder='999']").setValue(DataHelper.getBuyInfo1().getCcv());
         $$("button").find(exactText("Продолжить")).click();
         $(byText("Неверный формат"));
-        return new BuyPage();
+        return this;
     }
+
     public BuyPage setYear(DataHelper.BuyInfo buyInfo, String year) {
-        $(".button").shouldHave(Condition.text("Купить")).click();
         $("input[placeholder='0000 0000 0000 0000']").setValue(DataHelper.getBuyInfo1().getCardNumber());
         $("input[placeholder='08']").setValue(DataHelper.getBuyInfo1().getMonth());
         $("input[placeholder='22']").setValue(year);
@@ -79,10 +77,10 @@ public class BuyPage {
         $("input[placeholder='999']").setValue(DataHelper.getBuyInfo1().getCcv());
         $$("button").find(exactText("Продолжить")).click();
         $(byText("Неверный формат"));
-        return new BuyPage();
+        return this;
     }
+
     public BuyPage setCcv(DataHelper.BuyInfo buyInfo, String ccv) {
-        $(".button").shouldHave(Condition.text("Купить")).click();
         $("input[placeholder='0000 0000 0000 0000']").setValue(DataHelper.getBuyInfo1().getCardNumber());
         $("input[placeholder='08']").setValue(DataHelper.getBuyInfo1().getMonth());
         $("input[placeholder='22']").setValue(DataHelper.getBuyInfo1().getYear());
@@ -90,7 +88,7 @@ public class BuyPage {
         $("input[placeholder='999']").setValue(ccv);
         $$("button").find(exactText("Продолжить")).click();
         $(byText("Неверный формат"));
-        return new BuyPage();
+        return this;
 
     }
 }

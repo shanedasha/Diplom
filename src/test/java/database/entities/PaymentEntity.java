@@ -1,4 +1,4 @@
-package databaseentities;
+package database.entities;
 
 import lombok.Data;
 import lombok.NoArgsConstructor;
