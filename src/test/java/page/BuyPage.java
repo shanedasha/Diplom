@@ -1,9 +1,11 @@
 package page;
 
-import com.codeborne.selenide.Condition;
 import data.DataHelper;
 
+import java.time.Duration;
+
 import static com.codeborne.selenide.Condition.exactText;
+import static com.codeborne.selenide.Condition.visible;
 import static com.codeborne.selenide.Selectors.byText;
 import static com.codeborne.selenide.Selenide.$;
 import static com.codeborne.selenide.Selenide.$$;
@@ -16,7 +18,7 @@ public class BuyPage {
         $$(".input__control").get(3).setValue(DataHelper.getBuyInfo1().getOwner());
         $("input[placeholder='999']").setValue(DataHelper.getBuyInfo1().getCcv());
         $$("button").find(exactText("Продолжить")).click();
-        $(byText("Операция одобрена Банком."));
+        $(byText("Операция одобрена Банком.")).shouldBe(visible, Duration.ofSeconds(15));
         return this;
     }
 
@@ -27,7 +29,7 @@ public class BuyPage {
         $$(".input__control").get(3).setValue(DataHelper.getBuyInfo2().getOwner());
         $("input[placeholder='999']").setValue(DataHelper.getBuyInfo2().getCcv());
         $$("button").find(exactText("Продолжить")).click();
-        $(byText("Ошибка! Банк отказал в проведении операции."));
+        $(byText("Ошибка! Банк отказал в проведении операции.")).shouldBe(visible, Duration.ofSeconds(15));
         return this;
     }
 

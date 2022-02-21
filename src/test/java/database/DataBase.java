@@ -20,6 +20,7 @@ public class DataBase {
     private static Connection getConnection() {
         try {
             connection = DriverManager.getConnection(url, user, password);
+            return connection;
         } catch (SQLException e) {
             e.printStackTrace();
         }

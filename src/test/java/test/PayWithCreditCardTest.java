@@ -2,6 +2,7 @@ package test;
 
 import data.DataHelper;
 import database.DataBase;
+import lombok.val;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -9,6 +10,9 @@ import page.BuyInCreditPage;
 import page.MainPage;
 
 import static com.codeborne.selenide.Selenide.open;
+import static database.DataBase.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
 
 public class PayWithCreditCardTest extends MainPage {
     MainPage mainPage = new MainPage();
@@ -158,5 +162,38 @@ public class PayWithCreditCardTest extends MainPage {
         var ccv = "1111";
         var BuyInfo = DataHelper.getBuyInfo1();
         BuyInCreditPage.setCcv(BuyInfo, ccv);
+    }
+    @Test
+    public void shouldSuccessCreditRequestIfValidApprovedCards() {
+        var BuyInCreditPage = new BuyInCreditPage();
+        var BuyInfo = DataHelper.getBuyInfo1();
+        BuyInCreditPage.validInfo(BuyInfo);
+
+        val expectedStatus = "APPROVED";
+        val actualStatus = getCardStatusForCreditRequest();
+        assertEquals(expectedStatus, actualStatus);
+
+        val bankIdExpected = getBankId();
+        val paymentIdActual = getAmountPayment();
+        assertNotNull(bankIdExpected);
+        assertNotNull(paymentIdActual);
+        assertEquals(bankIdExpected, paymentIdActual);
+    }
+
+    @Test
+    public void shouldFailurePayIfValidDeclinedCards() {
+        var BuyInCreditPage = new BuyInCreditPage();
+        var BuyInfo = DataHelper.getBuyInfo2();
+        BuyInCreditPage.noValidInfo(BuyInfo);
+
+        val expectedStatus = "DECLINED";
+        val actualStatus = getCardStatusForCreditRequest();
+        assertEquals(expectedStatus, actualStatus);
+
+        val bankIdExpected = getBankId();
+        val paymentIdActual = getPaymentId();
+        assertNotNull(bankIdExpected);
+        assertNotNull(paymentIdActual);
+        assertEquals(bankIdExpected, paymentIdActual);
     }
 }

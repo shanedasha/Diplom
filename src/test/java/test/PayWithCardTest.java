@@ -2,6 +2,7 @@ package test;
 
 import data.DataHelper;
 import database.DataBase;
+import lombok.val;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -9,6 +10,9 @@ import page.BuyPage;
 import page.MainPage;
 
 import static com.codeborne.selenide.Selenide.open;
+import static database.DataBase.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
 
 public class PayWithCardTest extends MainPage {
 
@@ -159,5 +163,38 @@ public class PayWithCardTest extends MainPage {
         var ccv = "1111";
         var BuyInfo = DataHelper.getBuyInfo1();
         BuyPage.setCcv(BuyInfo, ccv);
+    }
+    @Test
+    public void shouldSuccessCreditRequestIfValidApprovedCards() {
+        var BuyPage = new BuyPage();
+        var BuyInfo = DataHelper.getBuyInfo1();
+        BuyPage.validInfo(BuyInfo);
+
+        val expectedStatus = "APPROVED";
+        val actualStatus = getCardStatusForPayment();
+        assertEquals(expectedStatus, actualStatus);
+
+        val bankIdExpected = getBankId();
+        val paymentIdActual = getAmountPayment();
+        assertNotNull(bankIdExpected);
+        assertNotNull(paymentIdActual);
+        assertEquals(bankIdExpected, paymentIdActual);
+    }
+
+    @Test
+    public void shouldFailurePayIfValidDeclinedCards() {
+        var BuyPage = new BuyPage();
+        var BuyInfo = DataHelper.getBuyInfo2();
+        BuyPage.noValidInfo(BuyInfo);
+
+        val expectedStatus = "DECLINED";
+        val actualStatus = getCardStatusForCreditRequest();
+        assertEquals(expectedStatus, actualStatus);
+
+        val bankIdExpected = getBankId();
+        val paymentIdActual = getPaymentId();
+        assertNotNull(bankIdExpected);
+        assertNotNull(paymentIdActual);
+        assertEquals(bankIdExpected, paymentIdActual);
     }
 }
