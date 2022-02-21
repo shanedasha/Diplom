@@ -165,7 +165,7 @@ public class PayWithCardTest extends MainPage {
         BuyPage.setCcv(BuyInfo, ccv);
     }
     @Test
-    public void shouldSuccessCreditRequestIfValidApprovedCards() {
+    public void shouldSuccessIfValidApprovedCards() {
         var BuyPage = new BuyPage();
         var BuyInfo = DataHelper.getBuyInfo1();
         BuyPage.validInfo(BuyInfo);

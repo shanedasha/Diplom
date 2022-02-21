@@ -181,7 +181,7 @@ public class PayWithCreditCardTest extends MainPage {
     }
 
     @Test
-    public void shouldFailurePayIfValidDeclinedCards() {
+    public void shouldFailureCreditPayIfValidDeclinedCards() {
         var BuyInCreditPage = new BuyInCreditPage();
         var BuyInfo = DataHelper.getBuyInfo2();
         BuyInCreditPage.noValidInfo(BuyInfo);
